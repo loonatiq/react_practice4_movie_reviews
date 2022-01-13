@@ -1,0 +1,25 @@
+.body {
+  background-color: #202020;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  background-color: #202020;
+  position: sticky;
+  top: 0;
+  padding-right: 830px;
+}
+
+button {
+  color: #e9e9e9;
+  background-color: #353535;
+  padding: 10px;
+  margin: 2px;
+  border: none;
+  cursor: pointer;
+}
+.main {
+  display: flex;
+  justify-content: center;
+}

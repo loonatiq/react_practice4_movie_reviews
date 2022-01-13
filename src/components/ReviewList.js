@@ -1,9 +1,13 @@
+import "./ReviewList.css";
+
 function formatDate(value) {
   const date = new Date(value);
   return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
 }
 
-function ReviewListItem({ item }) {
+function ReviewListItem({ item, onDelete }) {
+  const handleDeleteClick = () => onDelete(item.id);
+
   return (
     <div className="ReviewListItem">
       <img
@@ -11,7 +15,8 @@ function ReviewListItem({ item }) {
         src={item.imgUrl}
         alt={item.title}
       ></img>
-      <div>
+      <div className="summary">
+        <button onClick={handleDeleteClick}>x</button>
         <h1>{item.title}</h1>
         <p>{item.rating}</p>
         <p>{formatDate(item.createdAt)}</p>
@@ -21,13 +26,13 @@ function ReviewListItem({ item }) {
   );
 }
 
-function ReviewList({ items }) {
+function ReviewList({ items, onDelete }) {
   return (
     <ul>
       {items.map((item) => {
         return (
-          <li>
-            <ReviewListItem item={item} />
+          <li key={item.id}>
+            <ReviewListItem item={item} onDelete={onDelete} />
           </li>
         );
       })}
