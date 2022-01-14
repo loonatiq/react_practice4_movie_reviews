@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReviewList from "./ReviewList";
-import mockItems from "../mock.json";
 import "./App.css";
+import { getReviews } from "../Api";
 
 function App() {
-  const [items, setItems] = useState(mockItems);
+  const [items, setItems] = useState([]);
   const [sort, setSort] = useState("createdAt");
   const sortedItems = items.sort((a, b) => b[sort] - a[sort]);
 
@@ -16,12 +16,23 @@ function App() {
     setItems(nextItems);
   };
 
+  const handleLoad = async (sortQuery) => {
+    const { reviews } = await getReviews(sortQuery);
+    setItems(reviews);
+  };
+
+  //무한루프 방지
+  useEffect(() => {
+    handleLoad(sort);
+  }, [sort]);
+
   return (
     <div className="body">
-      <div className="buttons">
+      <div className="Buttons">
         <button onClick={handleNewestClick}>최신순</button>
         <button onClick={handleBestClick}>평점순</button>
       </div>
+      <div></div>
       <div className="main">
         <ReviewList items={sortedItems} onDelete={handleDelete} />
       </div>

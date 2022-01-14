@@ -5,8 +5,18 @@ function formatDate(value) {
   return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
 }
 
+function starRating(value) {
+  let stars = "";
+  for (let i = 0; i < value; i++) {
+    stars += "⭐";
+  }
+  return stars;
+}
+
 function ReviewListItem({ item, onDelete }) {
   const handleDeleteClick = () => onDelete(item.id);
+
+  let rate = Number(item.rating);
 
   return (
     <div className="ReviewListItem">
@@ -18,7 +28,7 @@ function ReviewListItem({ item, onDelete }) {
       <div className="summary">
         <button onClick={handleDeleteClick}>x</button>
         <h1>{item.title}</h1>
-        <p>{item.rating}</p>
+        <p>{starRating(rate)}</p>
         <p>{formatDate(item.createdAt)}</p>
         <p>{item.content}</p>
       </div>
