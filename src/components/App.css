@@ -23,3 +23,8 @@ button {
   display: flex;
   justify-content: center;
 }
+
+.addMore {
+  display: flex;
+  justify-content: center;
+}
