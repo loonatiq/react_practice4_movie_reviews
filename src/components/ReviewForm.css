@@ -1,0 +1,17 @@
+form {
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  border: none;
+  background-color: #ececec;
+  margin: 5px;
+}
+
+textarea {
+  border: none;
+  resize: none;
+  background-color: #ececec;
+  margin: 5px;
+}
