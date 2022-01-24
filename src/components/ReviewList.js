@@ -1,3 +1,4 @@
+import Rating from "./Rating";
 import "./ReviewList.css";
 
 function formatDate(value) {
@@ -5,13 +6,13 @@ function formatDate(value) {
   return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
 }
 
-function starRating(value) {
-  let stars = "";
-  for (let i = 0; i < value; i++) {
-    stars += "⭐";
-  }
-  return stars;
-}
+// function starRating(value) {
+//   let stars = "";
+//   for (let i = 0; i < value; i++) {
+//     stars += "⭐";
+//   }
+//   return stars;
+// }
 
 function ReviewListItem({ item, onDelete }) {
   const handleDeleteClick = () => onDelete(item.id);
@@ -28,7 +29,7 @@ function ReviewListItem({ item, onDelete }) {
       <div className="summary">
         <button onClick={handleDeleteClick}>x</button>
         <h1>{item.title}</h1>
-        <p>{starRating(rate)}</p>
+        <Rating value={item.rating} />
         <p>{formatDate(item.createdAt)}</p>
         <p>{item.content}</p>
       </div>

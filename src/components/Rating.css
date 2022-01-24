@@ -1,0 +1,7 @@
+.Rating-star {
+  color: #dbd6c2;
+}
+
+.Rating-star.selected {
+  color: #ffd20b;
+}
