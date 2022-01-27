@@ -1,4 +1,6 @@
+import { useState } from "react";
 import Rating from "./Rating";
+import ReviewForm from "./ReviewForm";
 import "./ReviewList.css";
 
 function formatDate(value) {
@@ -14,10 +16,9 @@ function formatDate(value) {
 //   return stars;
 // }
 
-function ReviewListItem({ item, onDelete }) {
+function ReviewListItem({ item, onDelete, onEdit }) {
   const handleDeleteClick = () => onDelete(item.id);
-
-  let rate = Number(item.rating);
+  const handleEditClick = () => onEdit(item.id);
 
   return (
     <div className="ReviewListItem">
@@ -28,6 +29,7 @@ function ReviewListItem({ item, onDelete }) {
       ></img>
       <div className="summary">
         <button onClick={handleDeleteClick}>x</button>
+        <button onClick={handleEditClick}>수정</button>
         <h1>{item.title}</h1>
         <Rating value={item.rating} />
         <p>{formatDate(item.createdAt)}</p>
@@ -37,13 +39,43 @@ function ReviewListItem({ item, onDelete }) {
   );
 }
 
-function ReviewList({ items, onDelete }) {
+function ReviewList({ items, onDelete, onUpdate, onUpdateSuccess }) {
+  const [editingId, setEditingId] = useState(null);
+
+  const handleCancel = () => setEditingId(null);
+
   return (
     <ul>
       {items.map((item) => {
+        if (item.id === editingId) {
+          const { id, imgUrl, title, rating, content } = item;
+          const initialValues = { title, rating, content };
+
+          const handleSubmit = (formData) => onUpdate(id, formData);
+
+          const handleSubmitSuccess = (review) => {
+            onUpdateSuccess(review);
+            setEditingId(null);
+          };
+          return (
+            <li key={item.id}>
+              <ReviewForm
+                initialValues={initialValues}
+                initialPreview={imgUrl}
+                onCancel={handleCancel}
+                onSubmit={handleSubmit}
+                onSubmitSuccess={handleSubmitSuccess}
+              />
+            </li>
+          );
+        }
         return (
           <li key={item.id}>
-            <ReviewListItem item={item} onDelete={onDelete} />
+            <ReviewListItem
+              item={item}
+              onDelete={onDelete}
+              onEdit={setEditingId}
+            />
           </li>
         );
       })}
