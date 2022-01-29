@@ -9,6 +9,8 @@ import {
 } from "../Api";
 import ReviewForm from "./ReviewForm";
 import useAsync from "./hooks/useAsync";
+import { LocaleProvider } from "./contexts/LocaleContext";
+import LocaleSelect from "./LocaleSelect";
 
 const LIMIT = 6;
 
@@ -71,32 +73,35 @@ function App() {
   };
 
   return (
-    <div className="body">
-      <div className="Buttons">
-        <button onClick={handleNewestClick}>최신순</button>
-        <button onClick={handleBestClick}>평점순</button>
-      </div>
-      <ReviewForm
-        onSubmit={createReviews}
-        onSubmitSuccess={handleCreateSuccess}
-      />
-      <div className="main">
-        <ReviewList
-          items={sortedItems}
-          onDelete={handleDelete}
-          onUpdate={updateReviews}
-          onUpdateSuccess={handleUpdateSuccess}
+    <LocaleProvider defaultValue={"ko"}>
+      <div className="body">
+        <LocaleSelect />
+        <div className="Buttons">
+          <button onClick={handleNewestClick}>최신순</button>
+          <button onClick={handleBestClick}>평점순</button>
+        </div>
+        <ReviewForm
+          onSubmit={createReviews}
+          onSubmitSuccess={handleCreateSuccess}
         />
+        <div className="main">
+          <ReviewList
+            items={sortedItems}
+            onDelete={handleDelete}
+            onUpdate={updateReviews}
+            onUpdateSuccess={handleUpdateSuccess}
+          />
+        </div>
+        <div className="addMore">
+          {hasNext && (
+            <button disabled={isLoading} onClick={handleLoadMore}>
+              더 보기
+            </button>
+          )}
+        </div>
+        {loadingError?.message && <span>{loadingError.message}</span>}
       </div>
-      <div className="addMore">
-        {hasNext && (
-          <button disabled={isLoading} onClick={handleLoadMore}>
-            더 보기
-          </button>
-        )}
-      </div>
-      {loadingError?.message && <span>{loadingError.message}</span>}
-    </div>
+    </LocaleProvider>
   );
 }
 
